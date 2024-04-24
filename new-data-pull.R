@@ -1,12 +1,27 @@
 # new data pull
 
 geographies <- list(
-  target = "1811939401",
-  core_cities = c("1811939460", "1811939630", "1811939683","1811939712","1811939378","1811939357","1811939339","1811939405","1811939397"
+  target = "E06000058",
+  core_cities = c(
+    "E06000022", # bath and north east somerset
+    "E06000055", # bedford
+    "E08000034", # kirklees
+    "E08000022", # north tyneside
+    "E06000057", # northumberland
+    "E06000026", # plymouth
+    "E08000014", # sefton
+    "E08000029", # solihull
+    "E06000033", # southend-on-sea
+    "E08000007", # stockport
+    "E06000030", # swindon
+    "E06000027", # torbay
+    "E06000007", # warrington
+    "E08000015", # wirral
+    "E06000014" # york
   ),
-  west_yorkshire = "1853882371",
-  yorkshire_humber = "2013265923",
-  united_kingdom = "2092957697"
+  # west_yorkshire = "1853882371",
+  south_west = "E12000009",
+  united_kingdom = "K02000001" # "2092957697"
 )
 
 # Older stuff -------------------------------------------------------------
