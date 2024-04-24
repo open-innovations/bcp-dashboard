@@ -516,7 +516,7 @@ all_data <- dplyr::bind_rows(all_data, population_data_final)
 #                 variable_name_full = "-")
 
 # all_data <- dplyr::bind_rows(all_data, prod_data_final)
-readr::write_csv(all_data, "inclusive-growth/all_data.csv")
+readr::write_csv(all_data, "all_data.csv")
 
 
 # update code (temp deprecated) -------------------------------------------
