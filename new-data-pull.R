@@ -375,83 +375,85 @@ all_data <- dplyr::bind_rows(all_data, rgva_data) #, clif_rate)
 
 # readr::write_csv(all_data, "inclusive-growth/all_data.csv")
 
+# TODO #4 bres needs re-writing to new build_api call function, and adjusting as we're
+# not using client industry groupings
 ### Specialised groupings for LCC industry definitions
 ### Should be pulled from BRES at SIC levels
 
 # all industry definitions
 # https://www.nomisweb.co.uk/api/v01/dataset/NM_189_1/industry/def.sdmx.htm
 
-bres <- jsonlite::fromJSON("https://www.nomisweb.co.uk/api/v01/dataset/NM_189_1/industry/def.sdmx.json")
+# bres <- jsonlite::fromJSON("https://www.nomisweb.co.uk/api/v01/dataset/NM_189_1/industry/def.sdmx.json")
 
-bres <- bres$structure$codelists$codelist$code[[1]] |>
-  dplyr::select(description, value) |>
-  jsonlite::flatten() |>
-  dplyr::select(industry_code = description.value,
-                bres_industry_code = value) |>
-  tidyr::separate(industry_code, c("industry_code", "industry_name"), " : ")
+# bres <- bres$structure$codelists$codelist$code[[1]] |>
+#   dplyr::select(description, value) |>
+#   jsonlite::flatten() |>
+#   dplyr::select(industry_code = description.value,
+#                 bres_industry_code = value) |>
+#   tidyr::separate(industry_code, c("industry_code", "industry_name"), " : ")
 
 
-lcc_sectors <- readr::read_csv("inclusive-growth/lcc-sectors.csv") |>
-  tidyr::separate(industry, c("industry_code", "industry_name"), " : ")
+# lcc_sectors <- readr::read_csv("inclusive-growth/lcc-sectors.csv") |>
+#   tidyr::separate(industry, c("industry_code", "industry_name"), " : ")
 
-joined <- dplyr::left_join(lcc_sectors, bres, by = c("industry_code"))
+# joined <- dplyr::left_join(lcc_sectors, bres, by = c("industry_code"))
 
-# build lists of each set of bres codes according to LCC sector
+# # build lists of each set of bres codes according to LCC sector
 
-out <- list()
-lcc_sectors <- joined$lcc_sector |> unique()
+# out <- list()
+# lcc_sectors <- joined$lcc_sector |> unique()
 
-for (sector in lcc_sectors) {
-  out[[sector]] <- dplyr::filter(joined, lcc_sector == sector)
-}
+# for (sector in lcc_sectors) {
+#   out[[sector]] <- dplyr::filter(joined, lcc_sector == sector)
+# }
 
-industry_codes <- lapply(out, \(x) {
-  x$bres_industry_code
-})
+# industry_codes <- lapply(out, \(x) {
+#   x$bres_industry_code
+# })
 
-# build NOMIS API call
+# # build NOMIS API call
 
-lcc_industry_api <- lapply(lcc_sectors, function(sector) {
-  paste0(
-    "industry=MAKE|",
-    gsub(" ", "%20", sector),
-    "|",
-    paste(industry_codes[[sector]], collapse = ";")
-  )
-}) |>
-  setNames(lcc_sectors)
+# lcc_industry_api <- lapply(lcc_sectors, function(sector) {
+#   paste0(
+#     "industry=MAKE|",
+#     gsub(" ", "%20", sector),
+#     "|",
+#     paste(industry_codes[[sector]], collapse = ";")
+#   )
+# }) |>
+#   setNames(lcc_sectors)
 
-lcc_sector_data <- lapply(lcc_sectors, function(sector) {
-  api <- paste0(
-    "https://www.nomisweb.co.uk/api/v01/dataset/NM_189_1.data.csv?geography=",
-    paste(unlist(geographies), collapse = ","),
-    "&", # "&date=latest&",
-    lcc_industry_api[[sector]],
-    "&employment_status=4&measure=1&measures=20100"
-  )
-  readr::read_csv(api)
-}) |>
-  dplyr::bind_rows()
+# lcc_sector_data <- lapply(lcc_sectors, function(sector) {
+#   api <- paste0(
+#     "https://www.nomisweb.co.uk/api/v01/dataset/NM_189_1.data.csv?geography=",
+#     paste(unlist(geographies), collapse = ","),
+#     "&", # "&date=latest&",
+#     lcc_industry_api[[sector]],
+#     "&employment_status=4&measure=1&measures=20100"
+#   )
+#   readr::read_csv(api)
+# }) |>
+#   dplyr::bind_rows()
 
-names(lcc_sector_data) <- tolower(names(lcc_sector_data))
-lcc_sector_data_final <- lcc_sector_data |>
-  dplyr::mutate(date = as.Date(paste0(date, "-01-01")),
-                date_name = as.character(date_name),
-                variable_name = industry_name) |>
-  dplyr::select(date, date_name,
-                geography_code, geography_name, geography_type,
-                industry_code, industry_name,
-                variable_name,
-                value = obs_value) |>
-  dplyr::mutate(category = "Employment",
-                is_summary = FALSE,
-                geography_core_city = ifelse(grepl("local authorities", geography_type), TRUE, FALSE),
-                variable_name_full = paste("Number employed in", variable_name))
+# names(lcc_sector_data) <- tolower(names(lcc_sector_data))
+# lcc_sector_data_final <- lcc_sector_data |>
+#   dplyr::mutate(date = as.Date(paste0(date, "-01-01")),
+#                 date_name = as.character(date_name),
+#                 variable_name = industry_name) |>
+#   dplyr::select(date, date_name,
+#                 geography_code, geography_name, geography_type,
+#                 industry_code, industry_name,
+#                 variable_name,
+#                 value = obs_value) |>
+#   dplyr::mutate(category = "Employment",
+#                 is_summary = FALSE,
+#                 geography_core_city = ifelse(grepl("local authorities", geography_type), TRUE, FALSE),
+#                 variable_name_full = paste("Number employed in", variable_name))
 
 # backup
 # readr::write_csv(all_data, "inclusive-growth/all_data_backup.csv")
 
-all_data <- dplyr::bind_rows(all_data, lcc_sector_data_final)
+# all_data <- dplyr::bind_rows(all_data, lcc_sector_data_final)
 
 # Demographics ------------------------------------------------------------
 
