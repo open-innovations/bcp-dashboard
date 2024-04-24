@@ -486,35 +486,36 @@ all_data <- dplyr::bind_rows(all_data, population_data_final)
 
 # Productivity ------------------------------------------------------------
 
-prod <- readr::read_csv("~/Data/ONS/Regional Accounts/Productivity/itlproductivity.csv") |>
-  dplyr::filter(geography_name %in% c("West Yorkshire",
-                                      "Yorkshire and The Humber",
-                                      "United Kingdom less Extra-Regio"))
+# TODO productivity needs to read from EDD
+# prod <- readr::read_csv("~/Data/ONS/Regional Accounts/Productivity/itlproductivity.csv") |>
+#   dplyr::filter(geography_name %in% c("West Yorkshire",
+#                                       "Yorkshire and The Humber",
+#                                       "United Kingdom less Extra-Regio"))
 
-prod_lad <- readr::read_csv("~/Data/ONS/Regional Accounts/Productivity/ladproductivity.csv") |>
-  dplyr::filter(geography_name %in% c("Belfast",
-                                      "Birmingham",
-                                      "Bristol, City of",
-                                      "Cardiff",
-                                      "Glasgow City",
-                                      "Leeds",
-                                      "Liverpool",
-                                      "Manchester",
-                                      "Newcastle upon Tyne",
-                                      "Nottingham",
-                                      "Sheffield"))
+# prod_lad <- readr::read_csv("~/Data/ONS/Regional Accounts/Productivity/ladproductivity.csv") |>
+#   dplyr::filter(geography_name %in% c("Belfast",
+#                                       "Birmingham",
+#                                       "Bristol, City of",
+#                                       "Cardiff",
+#                                       "Glasgow City",
+#                                       "Leeds",
+#                                       "Liverpool",
+#                                       "Manchester",
+#                                       "Newcastle upon Tyne",
+#                                       "Nottingham",
+#                                       "Sheffield"))
 
-prod_data <- dplyr::bind_rows(prod, prod_lad)
+# prod_data <- dplyr::bind_rows(prod, prod_lad)
 
-prod_data_final <- prod_data |>
-  dplyr::mutate(geography_name = ifelse(geography_name == "United Kingdom less Extra-Regio", "United Kingdom", geography_name)) |>
-  dplyr::mutate(date_name = as.character(date_name),
-                category = "Productivity",
-                is_summary = TRUE,
-                geography_core_city = ifelse(!geography_name %in% c("West Yorkshire", "Yorkshire and The Humber", "United Kingdom"), TRUE, FALSE),
-                variable_name_full = "-")
+# prod_data_final <- prod_data |>
+#   dplyr::mutate(geography_name = ifelse(geography_name == "United Kingdom less Extra-Regio", "United Kingdom", geography_name)) |>
+#   dplyr::mutate(date_name = as.character(date_name),
+#                 category = "Productivity",
+#                 is_summary = TRUE,
+#                 geography_core_city = ifelse(!geography_name %in% c("West Yorkshire", "Yorkshire and The Humber", "United Kingdom"), TRUE, FALSE),
+#                 variable_name_full = "-")
 
-all_data <- dplyr::bind_rows(all_data, prod_data_final)
+# all_data <- dplyr::bind_rows(all_data, prod_data_final)
 readr::write_csv(all_data, "inclusive-growth/all_data.csv")
 
 
