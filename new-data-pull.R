@@ -305,39 +305,39 @@ rgva_data <- dplyr::bind_rows(rgva_lad, rgva) |>
   dplyr::mutate(date_name = as.character(substr(date, 1, 4)))
 
 # CLIF
+# TODO #3 CLIF data needs to read directly from Stat-Xplore API
+# clif <- readxl::read_excel("inclusive-growth/table_2023-08-30_09-42-41.xlsx", skip = 8)
+# names(clif)[2] <- "geography_name"
+# clif2 <- clif |>
+#   dplyr::select(-Year) |>
+#   tidyr::pivot_longer(-geography_name, names_to = "date", values_drop_na = TRUE) |>
+#   dplyr::mutate(date = as.Date(paste0(substr(date, 1, 4), "-01-01")))
 
-clif <- readxl::read_excel("inclusive-growth/table_2023-08-30_09-42-41.xlsx", skip = 8)
-names(clif)[2] <- "geography_name"
-clif2 <- clif |>
-  dplyr::select(-Year) |>
-  tidyr::pivot_longer(-geography_name, names_to = "date", values_drop_na = TRUE) |>
-  dplyr::mutate(date = as.Date(paste0(substr(date, 1, 4), "-01-01")))
+# wy <- clif2 |>
+#   dplyr::filter(geography_name %in% c("Bradford",
+#                                       "Calderdale",
+#                                       "Kirklees",
+#                                       "Leeds",
+#                                       "Wakefield")) |>
+#   dplyr::group_by(date) |>
+#   dplyr::summarise(geography_name = "West Yorkshire", value = sum(value))
 
-wy <- clif2 |>
-  dplyr::filter(geography_name %in% c("Bradford",
-                                      "Calderdale",
-                                      "Kirklees",
-                                      "Leeds",
-                                      "Wakefield")) |>
-  dplyr::group_by(date) |>
-  dplyr::summarise(geography_name = "West Yorkshire", value = sum(value))
-
-clif2 <- clif2 |>
-  dplyr::filter(!geography_name %in% c("Bradford",
-                                      "Calderdale",
-                                      "Kirklees",
-                                      "Wakefield",
-                                      "Great Britain",
-                                      "Northern Ireland")) |>
-  dplyr::mutate(geography_name = ifelse(geography_name == "Total",
-                                        "UK",
-                                        geography_name)) |>
-  dplyr::bind_rows(wy) |>
-  dplyr::mutate(geography_type = ifelse(!geography_name %in% c("Yorkshire and The Humber", "West Yorkshire", "UK"), "local authorities", "other"),
-                category = "Children in Low Income Families",
-                is_summary = TRUE,
-                geography_core_city = ifelse(!geography_name %in% c("Yorkshire and The Humber", "West Yorkshire", "UK"), TRUE, FALSE),
-                variable_name = "Children in Low Income Families")
+# clif2 <- clif2 |>
+#   dplyr::filter(!geography_name %in% c("Bradford",
+#                                       "Calderdale",
+#                                       "Kirklees",
+#                                       "Wakefield",
+#                                       "Great Britain",
+#                                       "Northern Ireland")) |>
+#   dplyr::mutate(geography_name = ifelse(geography_name == "Total",
+#                                         "UK",
+#                                         geography_name)) |>
+#   dplyr::bind_rows(wy) |>
+#   dplyr::mutate(geography_type = ifelse(!geography_name %in% c("Yorkshire and The Humber", "West Yorkshire", "UK"), "local authorities", "other"),
+#                 category = "Children in Low Income Families",
+#                 is_summary = TRUE,
+#                 geography_core_city = ifelse(!geography_name %in% c("Yorkshire and The Humber", "West Yorkshire", "UK"), TRUE, FALSE),
+#                 variable_name = "Children in Low Income Families")
 
 mype_api <- paste0(
   "https://www.nomisweb.co.uk/api/v01/dataset/NM_2002_1.data.csv?geography=",
