@@ -208,6 +208,7 @@ nomis_data <- dplyr::bind_rows(data) |>
     TRUE ~ variable_name
   ))
 
+# TODO #1 nomis api call for cc data should be updated to new format
 nomis_cc_url <- "https://www.nomisweb.co.uk/api/v01/dataset/NM_162_1.data.csv?geography=1811939401,1811939460,1811939630,1811939683,1811939712,1811939378,1811939357,1811939339,1811939405,1811939397,2092957697,1853882371,2013265923&gender=0&age=0&measure=1,2&measures=20100"
 
 nomis_cc_temp <- readr::read_csv(nomis_cc_url, name_repair = tolower)
@@ -265,7 +266,7 @@ all_data <- dplyr::bind_rows(nomis_data, nomis_cc_data) |>
   ))
 
 # GVA
-
+# TODO #2 rgva_lad should read directly from EDD
 rgva_lad <- readr::read_csv("~/Data/rgva_lad.csv") |>
   dplyr::select(date,
                 geography_code = `LAD code`,
