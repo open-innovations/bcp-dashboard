@@ -223,7 +223,7 @@ server <- function(input, output, session) {
   mini_plots <- reactive({
     lapply(seq_along(vNames), function(x) {
       data() |>
-        dplyr::filter(geography_name == 'Leeds',
+        dplyr::filter(geography_name == 'Bournemouth, Christchurch and Poole',
                       variable_name == vNames[x],
                       is_summary,
                       !is.na(value))
@@ -261,7 +261,7 @@ server <- function(input, output, session) {
   output$dashboardUI <- renderUI({
     latest_indictors <- lapply(seq_along(vNames), function(x) {
       tempdata <- data() |>
-        dplyr::filter(geography_name == 'Leeds',
+        dplyr::filter(geography_name == 'Bournemouth, Christchurch and Poole',
                       variable_name == vNames[x],
                       is_summary,
                       !is.na(value))
@@ -327,7 +327,7 @@ server <- function(input, output, session) {
     plots <- lapply(seq_along(vNames), function(x) {
       renderPlotly({
         d1 <- data() |>
-          dplyr::filter(geography_name == 'Leeds',
+          dplyr::filter(geography_name == 'Bournemouth, Christchurch and Poole',
                         variable_name == vNames[x],
                         is_summary,
                         !is.na(value))
@@ -368,7 +368,7 @@ server <- function(input, output, session) {
           dplyr::filter(!is.na(value)) |>
           dplyr::group_by(geography_name) |>
           ggplot2::ggplot(ggplot2::aes(x = date, y = value,
-                                       colour = geography_name != "Leeds",
+                                       colour = geography_name != "Bournemouth, Christchurch and Poole",
                                        group = geography_name)) +
           ggplot2::geom_line() +
           plot.theme +
@@ -389,7 +389,7 @@ server <- function(input, output, session) {
         others <- data() |>
           dplyr::filter(variable_name == vNames[i]) |>
           dplyr::filter(geography_core_city == FALSE |
-                          geography_name == "Leeds") |>
+                          geography_name == "Bournemouth, Christchurch and Poole") |>
           dplyr::filter(!is.na(value)) |>
           ggplot2::ggplot(ggplot2::aes(x = date, y = value,
                                        colour = geography_name)) +
@@ -409,7 +409,7 @@ server <- function(input, output, session) {
         breakdown <- data() |>
           dplyr::filter(category == this_category,
                         !is_summary,
-                        geography_name == "Leeds",
+                        geography_name == "Bournemouth, Christchurch and Poole",
                         !is.na(value),
                         !grepl("G-U", variable_name)) |> # emp by industry
           dplyr::mutate(variable_name = variable_name |>
@@ -492,7 +492,7 @@ server <- function(input, output, session) {
     list(
       selectizeInput("place", "Which places to include?",
                      choices = unique(data1$geography_name),
-                     selected = "Leeds",
+                     selected = "Bournemouth, Christchurch and Poole",
                      multiple = TRUE,
                      options = list(plugins = list("remove_button"))
       ),
