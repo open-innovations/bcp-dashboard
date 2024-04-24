@@ -135,10 +135,10 @@ server <- function(input, output, session) {
       "Unemployment",
       "Youth unemployment",
       "Claimant count",
-      "Children in Low Income Families",
+      #"Children in Low Income Families",
 
       "GVA",
-      "GVA per filled job",
+      #"GVA per filled job",
       "NVQ4+",
       "Population"
       )
