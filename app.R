@@ -512,7 +512,7 @@ server <- function(input, output, session) {
 
   output$download_data <- downloadHandler(
     filename = function() {
-      paste0("leeds-inclusive-growth-data_", Sys.Date(), ".csv")
+      paste0("economic-dashboard-data_", Sys.Date(), ".csv")
     },
     content = function(file) {
       readr::write_csv(data_table_output(), file)
