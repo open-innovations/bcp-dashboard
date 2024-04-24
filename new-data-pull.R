@@ -58,16 +58,17 @@ geographies <- list(
 #   )) |>
 #   dplyr::filter(!grepl("% all in employment who work in", variable_name))
 
-geographies <- list(
-  target = "1811939401",
-  core_cities = c("1811939460", "1811939630", "1811939683", "1811939712",
-                  "1811939378", "1811939357", "1811939339", "1811939405",
-                  "1811939397"
-  ),
-  west_yorkshire = "1853882371",
-  yorkshire_humber = "2013265923",
-  united_kingdom = "2092957697"
-)
+# remove redundant geographies list
+# geographies <- list(
+#   target = "1811939401",
+#   core_cities = c("1811939460", "1811939630", "1811939683", "1811939712",
+#                   "1811939378", "1811939357", "1811939339", "1811939405",
+#                   "1811939397"
+#   ),
+#   west_yorkshire = "1853882371",
+#   yorkshire_humber = "2013265923",
+#   united_kingdom = "2092957697"
+# )
 
 geogs <- unlist(geographies)
 
