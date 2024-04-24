@@ -356,22 +356,22 @@ mype_data_final <- mype_data |>
                 variable_name = c_age_name,
                 value = obs_value)
 
-clif_rate <- dplyr::left_join(clif2, mype_data_final,
-                              by = c("date", "geography_name")) |>
-  dplyr::mutate(rate = round((value.x / value.y * 100), 1)) |>
-  dplyr::select(date, date_name,
-                geography_code, geography_name, geography_type = geography_type.x,
-                variable_name = variable_name.x,
-                rate,
-                count = value.x,
-                category, is_summary, geography_core_city) |>
-  tidyr::pivot_longer(cols = c(rate, count), names_to = "measures_name") |>
-  dplyr::mutate(measures_name = ifelse(measures_name == "rate", "Variable", "Numerator")) |>
-  dplyr::mutate(variable_name_full = "Children living in relative low income")
+# clif_rate <- dplyr::left_join(clif2, mype_data_final,
+#                               by = c("date", "geography_name")) |>
+#   dplyr::mutate(rate = round((value.x / value.y * 100), 1)) |>
+#   dplyr::select(date, date_name,
+#                 geography_code, geography_name, geography_type = geography_type.x,
+#                 variable_name = variable_name.x,
+#                 rate,
+#                 count = value.x,
+#                 category, is_summary, geography_core_city) |>
+#   tidyr::pivot_longer(cols = c(rate, count), names_to = "measures_name") |>
+#   dplyr::mutate(measures_name = ifelse(measures_name == "rate", "Variable", "Numerator")) |>
+#   dplyr::mutate(variable_name_full = "Children living in relative low income")
 
 # final grouping
 
-all_data <- dplyr::bind_rows(all_data, rgva_data, clif_rate)
+all_data <- dplyr::bind_rows(all_data, rgva_data) #, clif_rate)
 
 # readr::write_csv(all_data, "inclusive-growth/all_data.csv")
 
