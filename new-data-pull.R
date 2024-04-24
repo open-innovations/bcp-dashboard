@@ -212,7 +212,8 @@ nomis_cc_url <- "https://www.nomisweb.co.uk/api/v01/dataset/NM_162_1.data.csv?ge
 
 nomis_cc_temp <- readr::read_csv(nomis_cc_url, name_repair = tolower)
 
-nomis_cc <- readr::read_csv("data-raw/inclusive-growth-dashboard/nomis-cc.csv")
+# removed as never called
+# nomis_cc <- readr::read_csv("data-raw/inclusive-growth-dashboard/nomis-cc.csv")
 
 nomis_cc_data <- nomis_cc_temp |>
   # dplyr::filter(gender_name == "Total") |>
