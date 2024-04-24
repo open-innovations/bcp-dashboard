@@ -30,11 +30,11 @@ logos <- div(
 ui <- bslib::page_fluid(
   useShinyjs(),
   bslib::page_navbar(
-    title = "Leeds Inclusive Growth Dashboard",
+    title = "Bournemouth, Christchurch and Poole Economic Dashboard",
     id = "navbar",
     collapsible = TRUE,
     bg = "#1BACAF",
-    window_title = "Leeds Inclusive Growth Dashboard",
+    window_title = "Bournemouth, Christchurch and Poole Economic Dashboard",
     header = list(
       p(
         paste(
